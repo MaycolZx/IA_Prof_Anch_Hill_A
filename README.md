@@ -1,1 +1,56 @@
 # IA_Prof_Anch_Hill_A
+
+## Windows
+
+## MacOS
+
+## Linux
+
+Primero instalar algunas dependencias segun la distribucion que uses de Linux.
+
+### Ubuntu / Debian
+
+```bash
+sudo apt-get update
+sudo apt-get install build-essential cmake xorg-dev libglu1-mesa-dev
+sudo apt-get install libgl-dev libglfw3-dev
+```
+
+### Arch/Linux
+
+```bash
+sudo pacman -Syu
+sudo pacman -S glfw
+```
+
+Para compilar el proyecto usar el siguiente comando:
+
+```bash
+make
+```
+
+Ahora dirijase al directorio `/bin` y ejecute el programa como `./mi_programa`
+Por ahora el codigo solo se ha probado sobre Linux.
+
+### Si necesita installar GLFW y GlAD manualmente 
+
+1. Primero clonamos el repositorio oficial de GLFW `https://github.com/glfw/glfw`
+
+2. Seguimos los siguintes pasos, esto deberia de instalar GLFW en nuestro sistema
+
+```bash
+cd glfw
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+```
+3. Ahora generando el archivo al libreria `libglad.a`
+
+```bash
+gcc -c glad.c -o glad.o
+ar rcs libglad.a glad.o
+```
+
+Nota: El repositorio ya tiene las librerias necesarias para ejecutar el programa por lo que necesita generar la libreria de `libglad.a`
