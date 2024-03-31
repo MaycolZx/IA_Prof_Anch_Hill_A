@@ -1,70 +1,58 @@
-#include <GLFW/glfw3.h>
+#include "drawMatrix.h"
+#include "graphNodeEdgeM.h"
+#include <vector>
 #include <iostream>
+using namespace std;
 
-const int center = 10;
-const int height_Windows = 600;
-const int weight_Windows = 800;
-const int numeroNodos[2] = {10,10};
+int main()
+{
+    myRenderG glfwRunMatrix;
+    CGraph graph;
+    graph.InsertNode();
+    graph.ConnectNodes();
+    graph.nodes[1][1]->estado = false;
 
-void drawSquare(float x, float y, float size) {
-    glBegin(GL_QUADS);
-    glVertex2f(x - size/2, y - size/2);
-    glVertex2f(x + size/2, y - size/2);
-    glVertex2f(x + size/2, y + size/2);
-    glVertex2f(x - size/2, y + size/2);
-    glEnd();
-}
+    graph.destruirDeMaycol(20);
+    int valor;
+    cout << "Seleccione una opcion: \n1. BSF: \n2. : \n3. HillClimbing: \n4. A*: \nLa opcion es: ";
+    cin >> valor;
 
-void drawLine(float x1, float y1, float x2, float y2, float lineWidth) {
-    glLineWidth(lineWidth); // Establecer el grosor de la línea
-    glBegin(GL_LINES);
-    glVertex2f(x1, y1);
-    glVertex2f(x2, y2);
-    glEnd();
-}
 
-int main() {
-    if (!glfwInit()) {
-        std::cerr << "Error al inicializar GLFW\n";
-        return -1;
-    }
-    GLFWwindow* window = glfwCreateWindow(weight_Windows, height_Windows, "Malla Cuadricular", NULL, NULL);
-    if (!window) {
-        std::cerr << "Error al crear la ventana GLFW\n";
-        glfwTerminate();
-        return -1;
-    }
-    // Establecer la ventana como contexto actual
-    glfwMakeContextCurrent(window);
-
-    // Ciclo principal de renderizado
-    while (!glfwWindowShouldClose(window)) {
-        // Establecer el color de fondo
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        // Dibujar los cuadrados
-        glColor3f(0.0f, 0.0f, 0.0f); // Color blanco
-        float initialX = -1.0f; // Coordenada X inicial del primer cuadrado
-        float size = 0.04f; // Tamaño de los cuadrados
-        float spacing = 0.08f; // Espaciado entre cuadrados
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < numeroNodos[1]; j++) {
-                std::cout<<i<<","<<j<<" ";
-                drawSquare(initialX + i * spacing, j*spacing, size);
-            }
+    while (true)
+    {
+        if (valor == 1) {
+            cout << "Amplitud " << endl;
+            break;
         }
-
-        // Dibujar la línea entre los cuadrados
-        glColor3f(1.0f, 0.0f, 0.0f); // Color rojo
-        drawLine(initialX + size/2, 0.0f, initialX + 10 * spacing - size/2, 0.0f,5.0f);
-
-        // Intercambiar buffers y verificar eventos
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+        else if (valor == 2) {
+            cout << "Amplitud " << endl;
+            break;
+        }
+        else if (valor == 3) {
+            vector <CNode*> bHillClimbing = graph.HillClimbing(graph.nodes[5][5], graph.nodes[19][19]);
+            glfwRunMatrix.initGlfw();
+            glfwRunMatrix.initWindowsC();
+            glfwRunMatrix.runDerMatrixB(graph.nodes, bHillClimbing);
+            break;
+        }
+        else if (valor == 4) {
+            vector <CNode*> lAstar = graph.Astar(5, 5, 19, 19, 100);
+            glfwRunMatrix.initGlfw();
+            glfwRunMatrix.initWindowsC();
+            glfwRunMatrix.runDerMatrixB(graph.nodes, lAstar);
+            break;
+        }
     }
 
-    // Limpiar y terminar GLFW
-    glfwTerminate();
+    /*for (auto f = graph.nodes.begin(); f != graph.nodes.end(); f++) {
+        for (auto g = (*f).begin(); g != (*f).end(); g++) {
+            cout << (*g)->value_x << " y su valor es " << (*g)->value_y << "\n";
+        }
+    }*/
+
+    //NodoInicial = Negro
+    //Todos Nodos lista = Azul
+    //Ruta = Rojo
+
     return 0;
 }
