@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <ctime>
 #include <queue>
+#include <unordered_map>
 
 using namespace std;
 
@@ -143,7 +144,82 @@ public:
             allNodes[i]->estado = false;
         }
     }
+    //DFS
+    void DFSUtil(CNode* current, CNode* end, unordered_map<CNode*, bool>& visited, vector<CNode*>& path)
+    {
+        if (current == end) {
+            return;
+        }
 
+        for (auto& edge : current->edges)
+        {
+            CNode* neighbor = (edge->nodes[0] == current) ? edge->nodes[1] : edge->nodes[0];
+            if (!visited[neighbor] && neighbor->estado)
+            {
+                visited[neighbor] = true;
+                path.push_back(neighbor);
+                DFSUtil(neighbor, end, visited, path);
+                if (path.back() == end) {
+                    return;
+                }
+            }
+        }
+
+        // Si no se encuentra el nodo final, eliminar el nodo actual del camino
+        path.pop_back();
+    }
+    vector<CNode*> DFS(CNode* start, CNode* end)
+    {
+        vector<CNode*> path;
+        unordered_map<CNode*, bool> visited;
+
+        // Marcar el nodo inicial como visitado y agregarlo al camino
+        visited[start] = true;
+        path.push_back(start);
+
+        // Llamar a la función DFS recursiva
+        DFSUtil(start, end, visited, path);
+
+        // Devolver el camino encontrado
+        return path;
+    }
+
+
+    //BFS
+    vector<CNode*> BFS(CNode* start, CNode* end)
+    {
+        vector<CNode*> path;
+        unordered_map<CNode*, bool> visited;
+        queue<CNode*> q;
+
+        // Marcar el nodo inicial como visitado y agregarlo al camino
+        visited[start] = true;
+        path.push_back(start);
+        q.push(start);
+
+        while (!q.empty())
+        {
+            CNode* current = q.front();
+            q.pop();
+
+            for (auto& edge : current->edges)
+            {
+                CNode* neighbor = (edge->nodes[0] == current) ? edge->nodes[1] : edge->nodes[0];
+                if (!visited[neighbor] && neighbor->estado)
+                {
+                    visited[neighbor] = true;
+                    path.push_back(neighbor);
+                    q.push(neighbor);
+                    if (neighbor == end) {
+                        return path; // Devolver el camino si se encuentra el nodo final
+                    }
+                }
+            }
+        }
+        // Si no se encuentra el nodo final, vaciar el vector de camino y devolverlo vacío
+        path.clear();
+        return path;
+    }
     //A*
     int heuristica(int x1, int y1, int x2, int y2) {
         int dx = x1 - x2;

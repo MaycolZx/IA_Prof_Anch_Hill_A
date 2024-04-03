@@ -36,7 +36,6 @@ public:
     void initGlfw();
     void runDerMatrixB(vector<vector<CNode*>> nodes , vector<CNode*> l_Astar);
     void initWindowsC();
-    //void renderSquareG(vector<vector<CNode*>> nodes);
 private:
     GLFWwindow* window;
 };
@@ -47,21 +46,6 @@ myRenderG::myRenderG(){
 myRenderG::~myRenderG(){
     glfwDestroyWindow(window);
 }
-
-//void myRenderG::renderSquareG(vector<vector<CNode*>> nodes) {
-//    /*for (int i = 0; i < nodes.size(); i++) {
-//        drawSquare((nodes[0]));
-//    }*/
-//    glColor3f(0.0f, 0.0f, 0.0f); //Color de los cuadrados
-//    float size = 0.02f;
-//
-//     for (auto f = nodes.begin(); f != nodes.end(); f++) {
-//        for (auto g = (*f).begin(); g != (*f).end(); g++) {
-//            //cout << (*g)->value_x << " y su valor es " << (*g)->value_y << "\n";
-//            drawSquare((*g)->value_x, (*g)->value_y, size);
-//        }
-//    }
-//}
 
 void myRenderG::initGlfw() {
     if (!glfwInit()) {
@@ -108,9 +92,6 @@ void myRenderG::runDerMatrixB(vector<vector<CNode*>> nodes, vector<CNode*> l_Ast
                     for (auto edge : (*g)->edges)
                     {
                         if (edge->nodes[0]->estado && edge->nodes[1]->estado) {
-                            //cout << "(" << edge->nodes[0]->valuex << "(" << edge->nodes[0]->value_x << "), " << edge->nodes[0]->valuey << ")";
-                        //cout << "-(" << edge->nodes[1]->valuex << "," << edge->nodes[1]->valuey << ") ";
-                        //cout << "distance: " << edge->distancia << endl;
                             glColor3f(0.0f, 0.0f, 0.0f);
                             drawLine(edge->nodes[0]->value_x + center, edge->nodes[0]->value_y- center, edge->nodes[1]->value_x + center, edge->nodes[1]->value_y-center, 1.0f);
                         }     
@@ -118,16 +99,13 @@ void myRenderG::runDerMatrixB(vector<vector<CNode*>> nodes, vector<CNode*> l_Ast
                 }
             }
         }
-
-        /*for (auto f = l_Astar.begin(); f != l_Astar.end();f++) {
-            glColor3f(0.0f, 0.0f, 1.0f);
-            drawLine((*f)->value_x - center, (*f)->value_y- center, (*f)->value_x + center, (*f)->value_x - center, 1.0f);
-        }*/
         if (!l_Astar.empty()) {
-            for (int i = 0; i < l_Astar.size() - 2; ++i) {
+            for (int i = 0; i < l_Astar.size()-1; i++) {
+                //cout << "(" << l_Astar[i]->valuex << "-" << l_Astar[i]->valuey << ") ; (" << l_Astar[i + 1]->valuex<< "-"<<l_Astar[i+1]->valuey<<endl;
                 glColor3f(0.0f, 0.0f, 1.0f);
                 drawLine(l_Astar[i]->value_x + center, l_Astar[i]->value_y - center, l_Astar[i + 1]->value_x + center, l_Astar[i + 1]->value_y - center, 3.0f);
             }
+            cout << endl << "\n";
         }
         
 
