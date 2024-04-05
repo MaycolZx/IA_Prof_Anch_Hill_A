@@ -14,7 +14,7 @@ int main() {
   graph.ConnectNodes();
   graph.nodes[1][1]->estado = false;
 
-  graph.destruirDeMaycol(20);
+  graph.destruirDeBerly(20);
   int valor;
   cout << "Seleccione una opcion: \n1. DSF: \n2. BFS: \n3. HillClimbing: \n4. "
           "A*: \nLa opcion es: ";
